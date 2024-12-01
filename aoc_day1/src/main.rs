@@ -55,14 +55,31 @@ fn compute_min_distance(mut vec_left: Vec<i32>, mut vec_right: Vec<i32>) -> i32 
     //for the purpose of the test, sum result is: 1879048
 }
 
-
+fn compute_similarity_score(mut vec_left: Vec<i32>, mut vec_right: Vec<i32>) -> i32 {
+    //vec_left.sort();
+    //vec_right.sort();
+    //compute similarity vector
+    let mut vec_s: Vec<i32> = Vec::new();
+    while vec_left.len() != 0 {
+        let a = vec_left.pop().unwrap();
+        let b: i32 = vec_right.iter().filter(|x| x.to_owned().eq(&a)).count().try_into().unwrap();
+        println!("count {}", b);
+        vec_s.push((a*b).try_into().unwrap());
+    }
+    //add similarities
+    let sum: i32 = vec_s.iter().sum();
+    //return
+    sum
+}
 
 
 fn main() {
     println!("Let's try to read some data :D");
 
     let (vec_left, vec_right) = read_columns("data.txt");
-    println!("Sum: {}",compute_min_distance(vec_left, vec_right));
+    println!("Distance: {}",compute_min_distance(vec_left.clone(), vec_right.clone()));
     // expected result: 1879048
+    println!("Similarity: {}",compute_similarity_score(vec_left.clone(), vec_right.clone()));
+    // expected result: 21024792
 
 }
