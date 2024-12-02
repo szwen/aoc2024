@@ -27,7 +27,6 @@ where P: AsRef<Path>, {
         // put each part of the line in a vector
         for line in lines.flatten(){
             let parts= line.split(" ");
-            //let collection: Vec<&str> = parts.collect();
             let mut collection: Vec<&str> = parts.collect();
             let mut this = 0;
             let mut next = 0;
@@ -36,10 +35,19 @@ where P: AsRef<Path>, {
             //we are going through the vectors in reverse order but that is ok
             this = collection.pop().unwrap().parse::<i32>().unwrap();
             next = collection[collection.len()-1].parse::<i32>().unwrap();
+            println!("this {}", this);
+            println!("next {}", next);
             if (this < next) {
                 decreasing = false;
             }
-            if ((this - next).abs() <= 3 || (this - next).abs() >= 1) {
+            // I need to check these two values I got!
+            let diff = (this - next).abs();
+            println!("diff {}", diff);
+            if (diff > 3 || diff <1){
+                println!("not the correct diff {}", diff);
+            }
+            else{
+                let mut wrong: bool = false;
                 while collection.len() > 1 {
                     this = collection.pop().unwrap().parse::<i32>().unwrap();
                     next = collection[collection.len() - 1].parse::<i32>().unwrap();
@@ -48,27 +56,33 @@ where P: AsRef<Path>, {
                     if (this < next && decreasing) {
                         // wrong progression, lets not continue
                         println!("wrong progression!");
+                        wrong = true;
                         break;
                     }
                     if (this > next && !decreasing) {
                         // wrong progression, lets not continue
                         println!("wrong progression!");
+                        wrong = true;
                         break;
                     }
-                    if ((this - next).abs() > 3 || (this - next).abs() < 1) {
+                    let diff = (this - next).abs();
+                    if (diff > 3 || diff < 1){
                         println!("wrong jump!");
+                        wrong = true;
                         break;
                     }
                 }
-                if collection.len() == 1 {
+                if !wrong {
                     //we got to the end of the loop
                     println!("increasing counter");
                     count = count + 1;
                 }
+
             }
         }
     }
     println!("count {}", count);
+    // right outcome is 402
 
 }
 
