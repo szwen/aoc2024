@@ -5,7 +5,7 @@ use std::path::Path;
 use regex::Regex;
 
 
-//boilerplate unused code
+
 fn read_file(filename: &str) -> String {
     let contents =fs::read_to_string(filename);
     contents.expect("Error reading file")
