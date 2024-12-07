@@ -3,6 +3,12 @@ use std::io::BufRead;
 use std::fs::File;
 use std::path::Path;
 
+struct Letter {
+    value: char,
+    coord_x: i32,
+    coord_y: i32,
+}
+
 fn read_file(filename: &str) -> String {
     let contents =fs::read_to_string(filename);
     contents.expect("Error reading file")
@@ -31,18 +37,31 @@ where P: AsRef<Path>, {
 
 }
 
-fn find_keyword_in_grid(grid: &Vec<Vec<char>>, keyword: [char;4]) -> i32 {
+fn find_keyword_in_grid(grid: &Vec<Vec<char>>, keyword: Vec<char>) -> i32 {
     let mut count:i32 = 0;
+    let found:Vec<Vec<Letter>> = Vec::new();
     //aniria buscant un match d'una lletra i provant si cap amunt, avall o reverse la trobo.
     // A la que trobo una paraula intentaria substituir aquells caracters per estrellitas per no contarla dos cops.
+    // No puc fer aixo, el que m'haig de guardar son les coordenades. M'he creat una estructura letter per això
     //no tinc clar si haig d'utilitzar un vector o un array i llegir primer la dimensio de la tragedia
+
+    for row in grid {
+        for inspected_char in row {
+            if let pos = keyword.iter().position(|&c| c == inspected_char.to_owned()).unwrap() {
+                println!("found keyword at {:?}", pos);
+            }
+
+        }
+    }
+    count
 
 }
 
 fn main() {
     println!("Let's try to read some data :D");
-    let keyword = ['X', 'M', 'A', 'S'];
+    let keyword = vec!['X', 'M', 'A', 'S'];
     let grid = convert_to_char_grid("data.txt");
+    find_keyword_in_grid(&grid, keyword);
 
 
 }
